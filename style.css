@@ -1,6 +1,8 @@
 /* General */
 .container {
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .control-panel {
@@ -13,6 +15,14 @@
 .link {
     stroke: #aaa;
 }
+
+.link-positive {
+    stroke: rgb(142, 222, 224);
+}
+
+/* .link-negative {
+    stroke: rgb(232, 145, 240);
+} */
 
 .highlighted {
     stroke: #f00;
@@ -35,7 +45,7 @@
 
 .node text {
     display: none;
-    font: 10px sans-serif;
+    font: 12px sans-serif;
 }
 
 .node:hover text{

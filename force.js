@@ -17,9 +17,9 @@ const simulation = d3.forceSimulation()
     .force("centerY", d3.forceY(height / 2))
 
 // Add the links and nodes to the simulation from a JSON file
-d3.json("data/epsilons_graph_v2.json").then(function(graph) {
+d3.json("data/housing-badmarkers-race.json").then(function(graph) {
 
-    const EPSILON_FILTER = 2
+    const EPSILON_FILTER = 2;
 
     var fnodes = getLinkedNodes(graph, EPSILON_FILTER)
     var flinks = graph.links.filter(d => d.epsilon > EPSILON_FILTER)
@@ -33,6 +33,14 @@ d3.json("data/epsilons_graph_v2.json").then(function(graph) {
         .join("line")
         .classed("link", true)
 
+    // const plink = svg
+    //     .selectAll(".link")
+    //     .filter(d => d.epsilon > EPSILON_FILTER).classed("link-positive", true)
+
+    // const flink = svg
+    //     .selectAll(".link")
+    //     .filter(d => d.epsilon < EPSILON_FILTER * -1).classed("link-negative", true)
+
     // Define the nodes (each one as a group)
     const node = svg
         .selectAll(".node")
@@ -44,7 +52,7 @@ d3.json("data/epsilons_graph_v2.json").then(function(graph) {
     const circle = node
         .append("circle")
         // .attr("r", 5)
-        .attr("r", d => { return Math.sqrt(fnodes[d.name] + 24)})
+        .attr("r", d => { return Math.sqrt((fnodes[d.name] + 24)) * 1.2})
         .style("fill", d => colorScale(d.type))
 
     const label = node
@@ -53,21 +61,21 @@ d3.json("data/epsilons_graph_v2.json").then(function(graph) {
 
 
     // Legend
-    const legend = svg.selectAll(".legend")
-        .data(colorScale.domain())
-        .join("g")
-        .attr("transform", (d, i) => `translate(${width - 200},${(i + 2) * 20})`)
+    // const legend = svg.selectAll(".legend")
+    //     .data(colorScale.domain())
+    //     .join("g")
+    //     .attr("transform", (d, i) => `translate(${width - 200},${(i + 2) * 20})`)
 
-    legend.append("circle")
-        .attr("cx", 0)
-        .attr("cy", 0)
-        .attr("r", 5)
-        .attr("fill", colorScale)
+    // legend.append("circle")
+    //     .attr("cx", 0)
+    //     .attr("cy", 0)
+    //     .attr("r", 5)
+    //     .attr("fill", colorScale)
 
-    legend.append("text")
-        .attr("x", 10)
-        .attr("y", 5)
-        .text(d => d)
+    // legend.append("text")
+    //     .attr("x", 10)
+    //     .attr("y", 5)
+    //     .text(d => d)
 
     // Simulation
 
@@ -104,7 +112,7 @@ d3.json("data/epsilons_graph_v2.json").then(function(graph) {
             .attr("cy", function(d) { return d.y });
 
         label
-            .attr("x", function(d) { return d.x + 10 })
+            .attr("x", function(d) { return d.x + 12 })
             .attr("y", function(d) { return d.y});
 
     }
