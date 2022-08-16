@@ -17,7 +17,7 @@ const simulation = d3.forceSimulation()
     .force("centerY", d3.forceY(height / 2))
 
 // Add the links and nodes to the simulation from a JSON file
-d3.json("data/housing-badmarkers-race.json").then(function(graph) {
+d3.json("data/amazon.json").then(function(graph) {
 
     const EPSILON_FILTER = 2;
 
