@@ -17,7 +17,7 @@ const simulation = d3.forceSimulation()
     .force("centerY", d3.forceY(height / 2))
 
 // Add the links and nodes to the simulation from a JSON file
-d3.json("data/amazon.json").then(function(graph) {
+d3.json("data/output.json").then(function(graph) {
 
     const EPSILON_FILTER = 2;
 
@@ -172,10 +172,13 @@ function showTip(event, d) {
             .duration(300)
             .style("opacity", 1);
         
+        // var tip = 
+        //     "<h3>" + d.desc + "</h3><hr>" +
+        //     "<strong>Bin: </strong>" + d.cg_value + "<br>" +
+        //     "<strong>Interval: </strong>" + d.cg_min.toFixed(2) + " - " + d.cg_max.toFixed(2);
+
         var tip = 
-            "<h3>" + d.desc + "</h3><hr>" +
-            "<strong>Bin: </strong>" + d.cg_value + "<br>" +
-            "<strong>Interval: </strong>" + d.cg_min.toFixed(2) + " - " + d.cg_max.toFixed(2);
+            "<h3>" + d.name + "</h3>"
 
         hovercard.html(tip)
             .style("left", (d.fx + 20) + "px")
