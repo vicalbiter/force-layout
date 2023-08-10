@@ -71,5 +71,7 @@
 
   .viewport {
       border-style: solid;
-      border-width: 1px;
+      border-width: 3px;
+      border-radius: 5px;
+      border-color: #aaa;
   }

@@ -1,8 +1,9 @@
-var SHOW_TIP = false;
-
 const svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
+
+// Set up the color scale for the "type" property
+const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
 const hovercard = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -17,9 +18,9 @@ const simulation = d3.forceSimulation()
     .force("centerY", d3.forceY(height / 2))
 
 // Add the links and nodes to the simulation from a JSON file
-d3.json("data/output.json").then(function(graph) {
+d3.json("data/force_layout_guna.json").then(function(graph) {
 
-    const EPSILON_FILTER = 2;
+    const EPSILON_FILTER = 2.5;
 
     var fnodes = getLinkedNodes(graph, EPSILON_FILTER)
     var flinks = graph.links.filter(d => d.epsilon > EPSILON_FILTER)
@@ -61,21 +62,21 @@ d3.json("data/output.json").then(function(graph) {
 
 
     // Legend
-    // const legend = svg.selectAll(".legend")
-    //     .data(colorScale.domain())
-    //     .join("g")
-    //     .attr("transform", (d, i) => `translate(${width - 200},${(i + 2) * 20})`)
+    const legend = svg.selectAll(".legend")
+        .data(colorScale.domain())
+        .join("g")
+        .attr("transform", (d, i) => `translate(${width - 150},${(i + 2) * 22})`)
 
-    // legend.append("circle")
-    //     .attr("cx", 0)
-    //     .attr("cy", 0)
-    //     .attr("r", 5)
-    //     .attr("fill", colorScale)
+    legend.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", 6)
+        .attr("fill", colorScale)
 
-    // legend.append("text")
-    //     .attr("x", 10)
-    //     .attr("y", 5)
-    //     .text(d => d)
+    legend.append("text")
+        .attr("x", 10)
+        .attr("y", 5)
+        .text(d => d)
 
     // Simulation
 
@@ -127,14 +128,11 @@ d3.json("data/output.json").then(function(graph) {
             }
         })
     }
+
 })
 
 /* Auxiliary functions */
 
-// Color scale
-colorScale = d3.scaleOrdinal()
-    .domain(["Facilities", "Socio-Demographical"])
-    .range(['#86cbff', '#c2e5a0'])
 
 // Filters out those nodes that have links with a minimum strength of 'epsilon'
 function getLinkedNodes(graph, epsilon) {
@@ -172,13 +170,14 @@ function showTip(event, d) {
             .duration(300)
             .style("opacity", 1);
         
-        // var tip = 
-        //     "<h3>" + d.desc + "</h3><hr>" +
-        //     "<strong>Bin: </strong>" + d.cg_value + "<br>" +
-        //     "<strong>Interval: </strong>" + d.cg_min.toFixed(2) + " - " + d.cg_max.toFixed(2);
-
         var tip = 
-            "<h3>" + d.name + "</h3>"
+            "<h3>" + d.desc + "</h3><hr>" +
+            // "<strong>Bin: </strong>" + d.cg_value + "<br>" +
+            // "<strong>Interval: </strong>" + d.cg_min.toFixed(2) + " - " + d.cg_max.toFixed(2);
+            "<strong>Interval: </strong>" + d.interval;
+
+        // var tip = 
+        //     "<h3>" + d.desc + "</h3>"
 
         hovercard.html(tip)
             .style("left", (d.fx + 20) + "px")
